@@ -1,0 +1,100 @@
+body {
+    background: linear-gradient(135deg, #2f2f2f 30%, #1f1f1f 100%);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: row;
+    font-size: 50px;
+    color: #bffe99;
+    padding: 20px 0px;
+    margin-right: 40px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.lockIcon {
+    margin-left: 20px;
+    width: 75px;
+    height: 75px;
+}
+
+.loginContainer {
+    background-color: rgba(59, 55, 55, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.loginBox {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    margin: 3px 0px;
+    width: 300px;
+}
+
+.loginText {
+    color: #bffe99;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 10px;
+    border: 2px solid #bffe99;
+    border-radius: 5px;
+    color: #bffe99;
+    background-color: #4d4a4a;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+    border-color: #88ff88;
+    outline: none;
+    box-shadow: 0 0 5px rgba(136, 255, 136, 0.5);
+}
+
+.loginButton {
+    border: 3px solid #bffe99;
+    border-radius: 5px;
+    background-color: #3d3b3b;
+    color: #bffeBB;
+    font-size: 20px;
+    margin: 15px 0px 0px 0px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.loginButton:hover {
+    background-color: #5c5a5a;
+    transform: scale(1.05);
+}
+
+.signupButton {
+    color: #b1ff80b7;
+    font-size: 13px;
+    margin: 15px 0px 0px 0px;
+    text-decoration: underline;
+    font-weight: bolder;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.signupButton:hover {
+    color: #bffe99;
+}

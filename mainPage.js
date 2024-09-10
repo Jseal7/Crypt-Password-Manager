@@ -38,14 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const serviceName = document.getElementById('service').value;
         const email = document.getElementById('email').value;
         const username = document.getElementById('username').value;
-        const strongPassword = strongPass();
-
+        let strongPassword;
+        
         if (currentContainer) {
+            strongPassword = currentContainer.getAttribute('data-strong-password');
             currentContainer.querySelector('.containerTitle').textContent = serviceName;
             currentContainer.querySelector('.containerItem:nth-child(2) .containerSublabels').textContent = email;
             currentContainer.querySelector('.containerItem:nth-child(3) .containerSublabels').textContent = username;
             currentContainer.querySelector('.containerItem:nth-child(4) .containerSublabels').textContent = strongPassword;
         } else {
+            strongPassword = strongPass();
+
             const newContainer = document.createElement('div');
             newContainer.className = 'container';
 

@@ -1,5 +1,4 @@
 <?php
-
 include 'database.php';
 
 if(isset($_POST['signUp'])) {
@@ -8,13 +7,17 @@ if(isset($_POST['signUp'])) {
     $password=$_POST['password'];
     $password=md5($password);
 
-    $checkEmail="SELECT * FROM users WHERE email='$email'";
-    $result=$conn->query($checkEmail);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
     if($result->num_rows > 0) {
         echo "<script>alert('Email Address is already in use.'); window.location.href = 'signup.php'; </script>";
     } else {
-        $insertQuery="INSERT INTO users(userName, email, password) VALUES ('$userName','$email','$password')";
-        if($conn->query($insertQuery) == TRUE) {
+        $stmt = $conn->prepare("INSERT INTO users (userName, email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $userName, $email, $password);
+        if($stmt->execute()) {
             header("location: login.php");
         } else {
             echo "<script>alert('Error: " . $conn->error . "'); window.location.href = 'signup.php'; </script>";
@@ -27,12 +30,16 @@ if(isset($_POST['logIn'])) {
     $password=$_POST['password'];
     $password=md5($password);
 
-    $sql="SELECT * FROM users WHERE (email='$email' OR userName='$email') AND password='$password'";
-    $result=$conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE (email = ? OR userName = ?) AND password = ?");
+    $stmt->bind_param("sss", $email, $email, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
     if($result->num_rows > 0) {
         session_start();
         $row = $result->fetch_assoc();
         $_SESSION['email']=$row['email'];
+        $_SESSION['user_id']=$row['id'];
         header("Location: mainPage.php");
         exit();
     } else {

@@ -1,6 +1,26 @@
 <?php 
 session_start();
-include("database.php");
+include 'database.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$userId = $_SESSION['user_id'];
+$query = "SELECT service_name, email, username, strong_password FROM services WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $userId);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$services = [];
+while ($row = $result->fetch_assoc()) {
+    $services[] = $row;
+}
+
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +31,9 @@ include("database.php");
         <title>Crypt</title>
         <link rel="stylesheet" href="mainPage.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+        <script>
+            const userServices = <?php echo json_encode($services); ?>;
+        </script>
     </head>
 
     <body>
@@ -28,17 +51,20 @@ include("database.php");
         </footer>
 
         <div id="popUp" class="popUp">
-            <div class="popUpContent">
+            <div class="popUpContent" id="popUpContent">
                 <span class="closeButton">&times;</span>
                 <h2 class="popUpTitle">Add New Service</h2>
-                <form id="popUpForm">
+                <form id="popUpForm" action="addService.php" method="post">
                     <label for="service">Service:</label>
                     <input type="text" id="service" name="service" required>
+
                     <label for="email">Email:</label>
                     <input type="text" id="email" name="email" required>
+
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" required>
-                    <button type="submit" id="popUpSubmit" class="popUpSubmit">Add Service</button>
+
+                    <input value="Add Service" type="submit" id="popUpSubmit" class="popUpSubmit" name="popUpSubmit">
                 </form>
             </div>
         </div>

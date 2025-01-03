@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("database.php");
+?>
+
 <!DOCTYPE html>
 <html lang="eng">
     <link rel="stylesheet" href="login.css">
@@ -29,7 +34,3 @@
         </section>
     </body>
 </html>
-
-<?php
-
-?>

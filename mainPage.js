@@ -61,7 +61,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         deleteButton.addEventListener('click', () => {
             if (confirm("Are you sure you want to delete this service?")) {
-                container.remove();
+                const serviceName = container.querySelector('.containerTitle').textContent;
+                const containerPassword = container.getAttribute('data-strong-password');
+
+                const formData = new FormData();
+                formData.append('service_name', serviceName);
+                formData.append('strong_password', containerPassword);
+    
+                fetch('deleteService.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.status === 'success') {
+                            console.log('Service deleted successfully:', data);
+                            container.remove();
+                        } else {
+                            console.error('Error deleting service:', data.message);
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
             }
         });
 
@@ -104,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
             currentContainer.querySelector('.containerTitle').textContent = serviceName;
             currentContainer.querySelector('.containerItem:nth-child(2) .containerSublabels').textContent = email;
             currentContainer.querySelector('.containerItem:nth-child(3) .containerSublabels').textContent = username;
-            currentContainer.querySelector('.containerItem:nth-child(4) .containerSublabels').textContent = strongPassword;
         } else {
             strongPassword = strongPass();
             const newContainer = document.createElement('div');
